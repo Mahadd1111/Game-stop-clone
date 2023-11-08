@@ -57,7 +57,7 @@ const Navbar = () => {
                         <h1 className="text-xs font-semibold">Menu</h1>
                     </button>
                     <div className="h-20 w-40 relative hover:cursor-pointer">
-                        <Image className="" src={"/images/logo.svg"} alt="Gamestop" layout="fill"></Image>
+                        <Image className="" src={"/images/logo.svg"} alt="Gamestop" fill={true}></Image>
                     </div>
                 </div>
                 <div className="col-span-6 h-full flex items-center">

@@ -16,8 +16,16 @@ export default function RootLayout({ children }) {
       <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
       </head>
       <body className={inter.className}>
-        <Navbar/>
-        {children}
+        <div className=''>
+          <div className='fixed top-0 z-50'>
+            <Navbar/>
+          </div>
+          <div>
+            {children}
+          </div>
+          
+        </div>
+        
       </body>
     </html>
   )
