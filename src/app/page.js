@@ -2,8 +2,9 @@
 
 import Image from "next/image"
 import Link from "next/link"
-import OfferSlider from "./components/Carousel/OfferSlider"
-import mainOffers1 from "./dummydata"
+import OfferSlider from "./components/Carousel/offerSlider"
+import GameSlide from "./components/Carousel/gameSlider"
+import { mainOffers1, categories,games,accessories } from "./dummydata"
 import { useEffect, useState } from 'react';
 
 
@@ -99,6 +100,76 @@ export default function Home() {
         <div className="px-10 hidden lg:block mt-20">
           <OfferSlider data={promo2} />
         </div>
+      </section>
+      <section className="px-2">
+        <h1 className="text-3xl font-bold text-black mt-10 mb-6">Browse By Category</h1>
+        <div className="px-5 grid grid-cols-6 gap-5">
+          {
+            categories.map((item, index) => {
+              return (
+                <div className="text-center my-3 hover:scale-105">
+                  <div className="relative h-52">
+                    <Link className="h-full" href="#"><Image className="rounded-full" src={item.imgUrl} alt="game category" fill={true}></Image></Link>
+                  </div>
+                  <h1 className="text-md font-bold text-black">{item.name}</h1>
+                </div>
+              )
+            })
+          }
+        </div>
+      </section>
+      <section className="mt-5 px-10 py-5">
+        <div className="grid grid-cols-2 gap-10">
+          <Link className="hover:scale-105" href={"#"}>
+            <div className="shadow-xl hover:shadow-2xl rounded-2xl">
+              <div className="px-5 py-5">
+                <p className="text-slate-600 font-light text-md">SHOP NOW</p>
+                <p className="text-black font-bold text-lg">WarioWare: Move It!</p>
+              </div>
+              <div className="relative h-80">
+                <Image className="rounded-b-2xl" fill={true} alt="wario" src={"/images/games/wario.webp"}></Image>
+              </div>
+            </div>
+          </Link>
+          <Link href={"#"} className="hover:scale-105">
+            <div className="shadow-xl hover:shadow-2xl rounded-2xl">
+              <div className="px-5 py-5">
+                <p className="text-slate-600 font-light text-md">ON SALE NOW</p>
+                <p className="text-black font-bold text-lg">Hogwarts Legacy</p>
+              </div>
+              <div className="relative h-80">
+                <Image className="rounded-b-2xl" fill={true} alt="wario" src={"/images/games/hogwarts.webp"}></Image>
+              </div>
+            </div>
+          </Link>
+          </div>
+      </section>
+      <section className="mt-5 px-10">
+        <h1 className="text-3xl font-bold text-black mt-10 mb-6">Best Selling Games</h1>
+        <GameSlide data={games}/>
+      </section>
+      <section className="mt-5 px-10">
+        <h1 className="text-3xl font-bold text-black mt-10 mb-6">Best Selling Consoles and Accessories</h1>
+        <div className="grid grid-cols-6 gap-2">
+          {
+            accessories.map((item,index)=>{
+              return(
+                <div className="flex flex-col gap-10 hover:shadow-2xl py-10">
+                  <div className="relative h-40">
+                    <Image alt="console" fill={true} src={item.imgUrl}></Image>
+                  </div>
+                  <div className="px-5">
+                    <p className="text-black font-bold text-lg">{item.price}</p>
+                    <p className="text-black font-medium text-sm">{item.name}</p>
+                  </div>
+                </div>
+              )
+            })
+          }
+        </div>
+      </section>
+      <section className="mt-10">
+
       </section>
     </main>
   )

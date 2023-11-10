@@ -1,0 +1,42 @@
+/* swiper.css */
+
+/* Style the next button (right arrow) */
+.swiper-button-next {
+    transform: translateY(15px);
+    color: rgb(192, 192, 192);
+    background-color: black;
+    width: 40px;
+    height: 40px;
+    border-radius: 25px;
+}
+
+.swiper-button-next::after{
+    font-weight: 700;
+    font-size: 20px;
+    margin:auto;
+}
+
+.swiper-button-next:hover{
+    color:white;
+}
+  
+/* Style the prev button (left arrow) */
+.swiper-button-prev {
+    padding:auto;
+    transform: translateY(15px);
+    color: rgb(192, 192, 192);
+    background-color: black;
+    width: 40px;
+    height: 40px;
+    border-radius: 25px;
+}
+
+.swiper-button-prev::after{
+    margin:auto;
+    font-weight: 700;
+    font-size: 20px;
+}
+
+.swiper-button-prev:hover{
+color: white;
+}
