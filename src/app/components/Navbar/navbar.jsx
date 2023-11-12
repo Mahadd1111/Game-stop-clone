@@ -4,11 +4,13 @@ import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image"
 import styles from './navbar.module.css'
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 
 const Navbar = () => {
     const [showMenu, setShowMenu] = React.useState(false)
     const [isSearchActive, setIsSearchActive] = useState(false);
     const searchBarRef = useRef(null);
+    const {data:session}=useSession()
 
     const handleSearchClick = () => {
         setIsSearchActive(!isSearchActive);
@@ -79,10 +81,10 @@ const Navbar = () => {
                         <span className="material-icons text-black" style={{ fontSize: "32px" }}>repeat</span>
                         <h1 className="text-xs font-semibold">Trade In</h1>
                     </button>
-                    <button className="flex flex-col items-center justify-center hover:text-red-500 cursor-pointer w-20">
+                    <Link href="/login" className="flex flex-col items-center justify-center hover:text-red-500 cursor-pointer w-20">
                         <span className="material-icons text-black" style={{ fontSize: "32px" }}>person</span>
                         <h1 className="text-xs font-semibold">Sign In</h1>
-                    </button>
+                    </Link>
                     <button className="flex flex-col items-center justify-center hover:text-red-500 cursor-pointer w-20">
                         <span className="material-icons text-black" style={{ fontSize: "32px" }}>shopping_cart</span>
                         <h1 className="text-xs font-semibold">Cart</h1>

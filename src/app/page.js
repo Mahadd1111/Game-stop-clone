@@ -107,7 +107,7 @@ export default function Home() {
           {
             categories.map((item, index) => {
               return (
-                <div className="text-center my-3 hover:scale-105">
+                <div key={index} className="text-center my-3 hover:scale-105">
                   <div className="relative h-52">
                     <Link className="h-full" href="#"><Image className="rounded-full" src={item.imgUrl} alt="game category" fill={true}></Image></Link>
                   </div>
@@ -154,7 +154,7 @@ export default function Home() {
           {
             accessories.map((item,index)=>{
               return(
-                <div className="flex flex-col gap-10 hover:shadow-2xl py-10">
+                <div key={index} className="flex flex-col gap-10 hover:shadow-2xl py-10">
                   <div className="relative h-40">
                     <Image alt="console" fill={true} src={item.imgUrl}></Image>
                   </div>
