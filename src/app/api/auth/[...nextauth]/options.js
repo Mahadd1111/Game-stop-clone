@@ -1,16 +1,13 @@
 import { NextAuthOptions } from "next-auth";
 import GoogleProvider from 'next-auth/providers/google'
 import CredentialsProvider from "next-auth/providers/credentials";
+import {dynamodb, userTables,QueryCommand, GetItemCommand,ScanCommand} from "../../../../../db/db.config"
 
 export const options = {
     session:{
         strategy: "jwt"
     },
     providers:[
-        GoogleProvider({
-            clientId:process.env.GOOGLE_ID,
-            clientSecret:process.env.GOOGLE_SECRET
-        }),
         CredentialsProvider({
             name:"Credentials",
             credentials:{
@@ -27,18 +24,37 @@ export const options = {
             },
             async authorize(credentials){
                 // Database Logic
-                const user = {id:"40",username:"Mahad",password:"nextauth",email:"Mahad_1111@outlook.com"}
-                if(credentials?.username.toLowerCase()==user.username.toLowerCase() && credentials?.password==user.password){
-                    return {
-                        name:user.username,
-                        email:user.email
+                if(credentials){
+                    const command = new ScanCommand({
+                        TableName:userTables,
+                        FilterExpression:'#u = :u and #p = :p',
+                        ExpressionAttributeNames:{
+                            "#u":"username",
+                            "#p":"password"
+                        },
+                        ExpressionAttributeValues:{
+                            ':u':{"S":credentials.username.toLowerCase()},
+                            ':p':{"S":credentials.password}  
+                        },
+                    })
+                    try{
+                        const response = await dynamodb.send(command);
+                        console.log("Dynamo DB Response: ",response)
+                        if(response.Items && response.Items.length===1){
+                            return {
+                                name:response.Items[0].username.S,
+                                email:response.Items[0].email.S
+                            }
+                        }
+                        else{
+                            return null;
+                        }
+                    } catch(error){
+                        console.error('Error authorizing user:', error);
+                        throw error;
                     }
                 }
-                else{
-                    return null
-                }
-            },
-            
+            },    
         })
     ],
     pages:{

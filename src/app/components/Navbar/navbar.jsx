@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image"
 import styles from './navbar.module.css'
 import Link from "next/link";
-import { useSession } from "next-auth/react";
+import { useSession,signOut } from "next-auth/react";
 
 const Navbar = () => {
     const [showMenu, setShowMenu] = React.useState(false)
@@ -12,12 +12,26 @@ const Navbar = () => {
     const searchBarRef = useRef(null);
     const {data:session}=useSession()
 
+    if(session){
+        console.log(session);
+    }
+    else{
+        console.log("No User")
+    }
+    
     const handleSearchClick = () => {
         setIsSearchActive(!isSearchActive);
     };
 
     const toggleMenu = () => {
         setShowMenu(!showMenu)
+    }
+
+    async function handleLogOut(){
+        await signOut({
+            redirect:true,
+            callbackUrl:"/"
+        })
     }
 
     useEffect(() => {
@@ -51,16 +65,16 @@ const Navbar = () => {
     ]
 
     return (
-        <div className="bg-white h-20 relative">
+        <div className="bg-white h-20 relative w-full">
             <div className="grid grid-cols-12 gap-5">
                 <div className="ps-3 col-span-2 flex flex-row items-center gap-5 lg:gap-10">
                     <button onClick={toggleMenu} className="flex flex-col items-center justify-center hover:text-red-500 cursor-pointer">
                         <span className="material-icons text-black" style={{ fontSize: "32px" }}>menu</span>
                         <h1 className="text-xs font-semibold">Menu</h1>
                     </button>
-                    <div className="h-20 w-40 relative hover:cursor-pointer">
+                    <Link href={`/`} className="h-20 w-40 relative hover:cursor-pointer">
                         <Image className="" src={"/images/logo.svg"} alt="Gamestop" fill={true}></Image>
-                    </div>
+                    </Link>
                 </div>
                 <div className="col-span-6 h-full flex items-center">
                     <div onClick={handleSearchClick} ref={searchBarRef} className={`w-[250px] lg:w-[600px] h-10 lg:block flex flex-row justify-center items-center gap-1 lg:gap-5 p-2 ${isSearchActive ? "bg-white shadow-md" : "bg-gray-100"} transition duration-100 ease-in-out cursor-pointer`}>
@@ -81,14 +95,24 @@ const Navbar = () => {
                         <span className="material-icons text-black" style={{ fontSize: "32px" }}>repeat</span>
                         <h1 className="text-xs font-semibold">Trade In</h1>
                     </button>
-                    <Link href="/login" className="flex flex-col items-center justify-center hover:text-red-500 cursor-pointer w-20">
-                        <span className="material-icons text-black" style={{ fontSize: "32px" }}>person</span>
-                        <h1 className="text-xs font-semibold">Sign In</h1>
-                    </Link>
                     <button className="flex flex-col items-center justify-center hover:text-red-500 cursor-pointer w-20">
                         <span className="material-icons text-black" style={{ fontSize: "32px" }}>shopping_cart</span>
                         <h1 className="text-xs font-semibold">Cart</h1>
                     </button>
+                    {
+                        session?(
+                            <button onClick={handleLogOut} className="flex flex-col items-center justify-center hover:text-red-500 cursor-pointer w-20">
+                                <span className="material-icons text-black" style={{ fontSize: "32px" }}>logout</span>
+                                <h1 className="text-xs font-semibold">Logout</h1>
+                            </button>
+                        ):(
+                            <Link href="/login" className="flex flex-col items-center justify-center hover:text-red-500 cursor-pointer w-20">
+                                <span className="material-icons text-black" style={{ fontSize: "32px" }}>person</span>
+                                <h1 className="text-xs font-semibold">Sign In</h1>
+                            </Link>
+                        )
+                    }
+                    
                 </div>
             </div>
             <div style={{ width: showMenu ? '300px' : '0px' }} className={styles.sidenav}>

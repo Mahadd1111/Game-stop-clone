@@ -2,15 +2,7 @@
 import { useSession,signOut } from "next-auth/react"
 
 const Admin = () => {
-    const { data: session } = useSession()
-    if (session) {
-        console.log("Session Data: ", session)
-    }
-    if (!session) {
-        return (
-            <div className="pt-20">Access Denied</div>
-        )
-    }
+    const { data: session,status } = useSession({required:true});
 
     async function handleLogOut(){
         await signOut({
@@ -20,8 +12,15 @@ const Admin = () => {
     }
     return (
         <div className="pt-20">
-            <p>Successfully Logged In</p>
-            <button onClick={handleLogOut}>sign Out</button>
+            {
+                status==="authenticated"?(
+                    <div>
+                        <p>Welcome {session.user.name}</p>
+                    </div>
+                ):(
+                    <p>Access Denied</p>
+                )
+            }
         </div>
         
     )
