@@ -197,6 +197,7 @@ const product = [
             "/images/product/cod5.jpeg",
         ],
         name:"Call of Duty: Modern Warfare - PlayStation 4",
+        type:"Video Game",
         platform:"PS4",
         manufacturer:"Activision",
         rating:3.5,
@@ -206,7 +207,8 @@ const product = [
         edition:"Standard",
         sale:true,
         saleprice:49.99,
-        audience:"Mature"
+        audience:"Mature",
+        genre:"Action"
     }
 ]
 

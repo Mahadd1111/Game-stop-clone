@@ -101,6 +101,16 @@ const Navbar = () => {
                     </button>
                     {
                         session?(
+                            <Link href={`/admin`} className="flex flex-col items-center justify-center hover:text-red-500 cursor-pointer w-20">
+                                <span className="material-icons text-black" style={{ fontSize: "32px" }}>grid_view</span>
+                                <h1 className="text-xs font-semibold">Dashboard</h1>
+                            </Link>
+                        ):(
+                            <div></div>
+                        )
+                    }
+                    {
+                        session?(
                             <button onClick={handleLogOut} className="flex flex-col items-center justify-center hover:text-red-500 cursor-pointer w-20">
                                 <span className="material-icons text-black" style={{ fontSize: "32px" }}>logout</span>
                                 <h1 className="text-xs font-semibold">Logout</h1>
