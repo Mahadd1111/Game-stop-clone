@@ -1,7 +1,7 @@
 import { NextAuthOptions } from "next-auth";
 import GoogleProvider from 'next-auth/providers/google'
 import CredentialsProvider from "next-auth/providers/credentials";
-import {dynamodb, userTables,QueryCommand, GetItemCommand,ScanCommand} from "../../../../../db/db.config"
+import {dynamodb, userTable,QueryCommand, GetItemCommand,ScanCommand} from "../../../../../db/db.config"
 
 export const options = {
     session:{
@@ -26,7 +26,7 @@ export const options = {
                 // Database Logic
                 if(credentials){
                     const command = new ScanCommand({
-                        TableName:userTables,
+                        TableName:userTable,
                         FilterExpression:'#u = :u and #p = :p',
                         ExpressionAttributeNames:{
                             "#u":"username",

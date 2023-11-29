@@ -1,6 +1,7 @@
 // import { DynamoDB } from "@aws-sdk/client-dynamodb";
-import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { QueryCommand,GetItemCommand,ScanCommand } from "@aws-sdk/client-dynamodb";
+const { DynamoDBClient } = require("@aws-sdk/client-dynamodb");
+const { QueryCommand, GetItemCommand, ScanCommand, PutItemCommand } = require("@aws-sdk/client-dynamodb");
+
 
 const dynamodb = new DynamoDBClient({ 
     region: "me-south-1",
@@ -8,12 +9,15 @@ const dynamodb = new DynamoDBClient({
     secretAccessKey:process.env.AWS_SECRET_ACCESS_KEY
 });
 
-const userTables = "gamestop_admins"
+const userTable = "gamestop_admins"
+const productTable = "gamestop_products"
 
-export {
+module.exports = {
     dynamodb,
-    userTables,
+    userTable,
+    productTable,
     QueryCommand,
     GetItemCommand,
-    ScanCommand
+    ScanCommand,
+    PutItemCommand
 }

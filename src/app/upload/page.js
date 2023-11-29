@@ -2,8 +2,14 @@
 import { useSession, signOut } from "next-auth/react"
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import axios from "axios";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useRouter, usePathname, useSearchParams } from 'next/navigation'
 
 const Upload = () => {
+    const router = useRouter();
+
     const [name, setName] = useState("");
     const [desc, setDesc] = useState("");
     const [platform, setPlatform] = useState("");
@@ -40,6 +46,32 @@ const Upload = () => {
                 newImageArray.push(file)
             }
             setImages(newImageArray);
+        }
+    }
+
+    async function handleSubmit(){
+        console.log("URL CALLED: ",`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/products/upload`)
+        const formData = {
+            name:name,
+            desc:desc,
+            platform:platform,
+            type:type,
+            price:parseFloat(price),
+            manufacturer:manufacturer,
+            rating:parseInt(rating),
+            sale:sale,
+            saleprice:parseFloat(saleprice),
+            esrb:esrb,
+            genre:genre,
+        }
+        try{
+            const {data} = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/products/upload`,{data:formData})
+            console.log("Returned Data: ",data)
+            if(data.success){
+                toast.success(data.message)
+            }
+        }catch(error){
+            toast.error(data.message)  
         }
     }
 
@@ -124,10 +156,10 @@ const Upload = () => {
                 </div>
                 <div className="py-3 flex flex-col justify-center gap-2">
                     <h1 className="text-black font-bold">Confirm Submission</h1>
-                    <button className="w-1/2 rounded-xl py-3 px-6 bg-slate-800 text-white">Upload</button>
+                    <button onClick={handleSubmit} className="w-1/2 rounded-xl py-3 px-6 bg-slate-800 text-white">Upload</button>
                 </div>
             </div>
-
+            <ToastContainer/>
 
         </div>
     )
