@@ -24,8 +24,8 @@ const Upload = () => {
     const [images,setImages] = useState([]);
 
     useEffect(() => {
-        console.log(`name: ${name}\ndesc: ${desc}\nplatform: ${platform}\ntype: ${type}\nman: ${manufacturer}\nrating: ${rating}\nprice: ${price}\nsale: ${sale}\nsaleprice: ${saleprice}\nesrb: ${esrb},\ngenre ${genre}`)
-    },[name,desc,platform,type,manufacturer,rating,price,sale,saleprice,esrb,genre]);
+        console.log(`name: ${name}\ndesc: ${desc}\nplatform: ${platform}\ntype: ${type}\nman: ${manufacturer}\nrating: ${rating}\nprice: ${price}\nsale: ${sale}\nsaleprice: ${saleprice}\nesrb: ${esrb},\ngenre ${genre}\nImages ${images}`)
+    },[name,desc,platform,type,manufacturer,rating,price,sale,saleprice,esrb,genre,images]);
 
     function handleChange(e){
         const {name,value} = e.target
@@ -51,21 +51,27 @@ const Upload = () => {
 
     async function handleSubmit(){
         console.log("URL CALLED: ",`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/products/upload`)
-        const formData = {
-            name:name,
-            desc:desc,
-            platform:platform,
-            type:type,
-            price:parseFloat(price),
-            manufacturer:manufacturer,
-            rating:parseInt(rating),
-            sale:sale,
-            saleprice:parseFloat(saleprice),
-            esrb:esrb,
-            genre:genre,
+        const formData = new FormData()
+        formData.append("name",name)
+        formData.append("desc",desc)
+        formData.append("platform",platform)
+        formData.append("type",type)
+        formData.append("price",parseFloat(price))
+        formData.append("manufacturer",manufacturer)
+        formData.append("rating",parseInt(rating))
+        formData.append("sale",sale)
+        formData.append("saleprice",parseFloat(saleprice))
+        formData.append("esrb",esrb)
+        formData.append("genre",genre)
+        for (const file of images) {
+            formData.append("file", file);
         }
         try{
-            const {data} = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/products/upload`,{data:formData})
+            const {data} = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/products/upload`,formData,{
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                }
+            })
             console.log("Returned Data: ",data)
             if(data.success){
                 toast.success(data.message)

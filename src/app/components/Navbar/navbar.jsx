@@ -50,17 +50,17 @@ const Navbar = () => {
         {
             id: 1,
             title: "Video Games",
-            url: ""
+            url: "/search-page"
         },
         {
             id: 2,
             title: "Consoles",
-            url: ""
+            url: "/search-page"
         },
         {
             id: 3,
             title: "Accessories",
-            url: ""
+            url: "/search-page"
         }
     ]
 
