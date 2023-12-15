@@ -88,7 +88,7 @@ const SearchPage = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://localhost:4000/api/products/search');
+                const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/products/search`);
                 console.log("API Request Executed : ", response)
                 setData(true)
                 setProducts(response.data)
