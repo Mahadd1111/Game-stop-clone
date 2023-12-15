@@ -61,7 +61,7 @@ const SearchProducts = async(req,res)=>{
           TableName: productTable,
         });
         const result = await dynamodb.send(scanCommand);
-        console.log(result.Items[0].images)
+        // console.log(result.Items[0].images)
         for (const item of result.Items) {
             if (item.images && item.images.L) {
                 const imagesArray = item.images.L;
@@ -73,7 +73,7 @@ const SearchProducts = async(req,res)=>{
                         }
                         const command = new GetObjectCommand(getObjectParams)
                         const signed_url = await getSignedUrl(s3client,command,{expiresIn:3600})
-                        console.log("Signed Url : ",signed_url)
+                        // console.log("Signed Url : ",signed_url)
                         image.S = signed_url;
                     }
                 }
